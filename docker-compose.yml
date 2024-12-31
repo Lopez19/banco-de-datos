@@ -1,0 +1,23 @@
+services:
+    postgres:
+        image: postgres:latest
+        restart: always
+        ports:
+            - 5432:5432
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=mysecretpassword
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=banco_de_saberes
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+
+volumes:
+    pgdata:
+        driver: local
+        name: postgres
