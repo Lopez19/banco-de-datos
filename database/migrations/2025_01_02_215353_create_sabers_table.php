@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
         Schema::create('saberes', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->text('descripcion');
-            $table->foreignId('area_tematica_id')->constrained('area_tematicas');
-            $table->string('formato');
+            $table->foreignId('area_tematica_id')->constrained('area_tematicas')->nullOnDelete();
+            $table->foreignId("media_id")->nullable()->constrained('media')->nullOnDelete();
+            $table->foreignId('format_id')->constrained('formats')->nullOnDelete();
             $table->json('palabras_clave');
             $table->string('autor');
             $table->string('enlace_adicional')->nullable();
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**

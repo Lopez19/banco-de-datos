@@ -18,7 +18,14 @@ class AreaTematicaResource extends Resource
 {
     protected static ?string $model = AreaTematica::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+
+    protected static ?string $navigationLabel = 'Áreas temáticas';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {

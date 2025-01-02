@@ -5,7 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SaberResource\Pages;
 use App\Filament\Resources\SaberResource\RelationManagers;
 use App\Models\Saber;
+use Awcodes\Curator\Components\Forms\CuratorPicker;
+use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Filament\Forms;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -23,7 +26,14 @@ class SaberResource extends Resource
 {
     protected static ?string $model = Saber::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+
+    protected static ?string $navigationLabel = 'Saberes';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -33,10 +43,8 @@ class SaberResource extends Resource
                     ->label('Título')
                     ->required()
                     ->columnSpanFull(),
-                Textarea::make('descripcion')
+                RichEditor::make('descripcion')
                     ->label('Descripción')
-                    ->maxLength(65535)
-                    ->autosize()
                     ->required()
                     ->columnSpanFull(),
                 Select::make('area_tematica_id')
@@ -51,13 +59,16 @@ class SaberResource extends Resource
                             ->required(),
                     ])
                     ->required(),
-                Select::make('formato')
+                Select::make('format_id')
                     ->label('Formato')
-                    ->options([
-                        'Articulos' => 'Articulos',
-                        'Video' => 'Video',
-                        'Manuales' => 'Manuales',
-                        'Entrevistas' => 'Entrevistas'
+                    ->relationship('format', 'nombre')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        TextInput::make('nombre')
+                            ->label('Nombre')
+                            ->maxLength(255)
+                            ->required(),
                     ])
                     ->required(),
                 TextInput::make('palabras_clave')
@@ -71,6 +82,9 @@ class SaberResource extends Resource
                     ->url()
                     ->nullable()
                     ->label('Enlace adicional'),
+                CuratorPicker::make('media_id')
+                    ->label('Archivo')
+                    ->nullable(),
             ]);
     }
 
@@ -81,15 +95,11 @@ class SaberResource extends Resource
                 TextColumn::make('titulo')
                     ->searchable()
                     ->label('Título'),
-                TextColumn::make('descripcion')
-                    ->searchable()
-                    ->label('Descripción')
-                    ->wrap(),
                 TextColumn::make('areaTematica.nombre')
                     ->searchable()
                     ->sortable()
                     ->label('Área temática'),
-                TextColumn::make('formato')
+                TextColumn::make('format.nombre')
                     ->searchable()
                     ->sortable()
                     ->label('Formato'),
@@ -98,6 +108,9 @@ class SaberResource extends Resource
                     ->label('Palabras clave')
                     ->badge()
                     ->separator(','),
+                CuratorColumn::make('media_id')
+                    ->label('Archivo')
+                    ->size(40),
             ])
             ->filters([
                 SelectFilter::make('area_tematica_id')
@@ -105,14 +118,11 @@ class SaberResource extends Resource
                     ->options(
                         fn(): array => \App\Models\AreaTematica::pluck('nombre', 'id')->toArray(),
                     ),
-                SelectFilter::make('formato')
+                SelectFilter::make('format_id')
                     ->label('Formato')
-                    ->options([
-                        'Articulos' => 'Articulos',
-                        'Video' => 'Video',
-                        'Manuales' => 'Manuales',
-                        'Entrevistas' => 'Entrevistas'
-                    ]),
+                    ->options(
+                        fn(): array => \App\Models\Format::pluck('nombre', 'id')->toArray(),
+                    ),
 
             ])
             ->actions([

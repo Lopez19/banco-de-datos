@@ -26,10 +26,22 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->plugins([
+                \Awcodes\Curator\CuratorPlugin::make()
+                    ->label('Media')
+                    ->pluralLabel('Media')
+                    ->navigationIcon('heroicon-o-photo')
+                    ->navigationGroup('Content')
+                    ->navigationSort(3)
+                    ->navigationCountBadge()
+                    // ->registerNavigation(false)
+                    ->defaultListView('grid' || 'list')
+            ])
             ->login()
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
