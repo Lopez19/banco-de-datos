@@ -16,6 +16,7 @@ class Saber extends Model
 
     protected $fillable = [
         'titulo',
+        'slug',
         'descripcion',
         'area_tematica_id',
         'media_id',

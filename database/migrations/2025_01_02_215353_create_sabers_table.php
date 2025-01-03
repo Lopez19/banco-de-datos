@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('saberes', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
+            $table->string('slug')->unique();
             $table->text('descripcion');
             $table->foreignId('area_tematica_id')->constrained('area_tematicas')->nullOnDelete();
             $table->foreignId("media_id")->nullable()->constrained('media')->nullOnDelete();

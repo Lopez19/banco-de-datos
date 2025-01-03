@@ -7,10 +7,8 @@ use App\Filament\Resources\SaberResource\RelationManagers;
 use App\Models\Saber;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
-use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -41,8 +39,11 @@ class SaberResource extends Resource
             ->schema([
                 TextInput::make('titulo')
                     ->label('Título')
+                    ->required(),
+                TextInput::make('slug')
+                    ->label('Slug')
                     ->required()
-                    ->columnSpanFull(),
+                    ->helperText('genere con el siguiente formato: "titulo-del-saber"'),
                 RichEditor::make('descripcion')
                     ->label('Descripción')
                     ->required()
