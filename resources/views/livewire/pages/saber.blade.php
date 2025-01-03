@@ -9,7 +9,13 @@
             <div class="flex flex-col lg:flex-row gap-4 lg:gap-8">
                 <article class="prose lg:w-1/2 flex flex-col justify-center items-center lg:justify-start">
                     <h1>{{ $saber?->titulo }}</h1>
-                    <img src="/storage/{{ $saber?->media->path }}" alt="{{ $saber?->media->alt }}" />
+
+                    @if ($saber?->media)
+                        <img src="/storage/{{ $saber?->media->path }}" alt="{{ $saber?->media->alt }}" />
+                    @else
+                        <img src="https://via.placeholder.com/300" alt="" />
+                    @endif
+
 
                     <div class="w-full">
                         {{-- Palabras Clave --}}

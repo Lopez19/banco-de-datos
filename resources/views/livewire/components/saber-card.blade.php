@@ -1,5 +1,11 @@
 <div class="relative flex flex-col justify-between bg-white shadow-md rounded-lg overflow-hidden">
-    <img src="/storage/{{ $saber->media->path }}" alt="{{ $saber->media->alt }}" class="object-cover w-full h-48">
+
+    @if ($saber?->media)
+        <img src="/storage/{{ $saber?->media->path }}" alt="{{ $saber?->media->alt }}" class="object-cover w-full h-48">
+    @else
+        <img src="https://via.placeholder.com/300" alt="" class="object-cover w-full h-48" />
+    @endif
+
     <div class="flex flex-col justify-between p-6 bg-white shadow-md">
         <div>
             <h3 class="text-lg font-semibold">{{ $saber->titulo }}</h3>
