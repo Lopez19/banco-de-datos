@@ -18,8 +18,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "robsontenorio/mary": "^1.41",
-        "spatie/laravel-permission": "^6.10",
-        "lopez19/wire-content": "@dev"
+        "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -42,15 +41,6 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "packages/wire-content",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
